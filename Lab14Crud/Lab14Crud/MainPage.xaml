@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Lab14Crud.MainPage"
+             xmlns:viewModel="clr-namespace:Lab14Crud.ViewModels">
+
+    <ContentPage.BindingContext>
+        <viewModel:MainViewModel></viewModel:MainViewModel>
+    </ContentPage.BindingContext>
+    <StackLayout Padding="15">
+        <Label Text="Nombre del paciente"/>
+        <Entry Placeholder="Componente" Text="{Binding NameComponentP}" />
+        <Label Text="Fecha de enfermedad del paciente"/>
+        <DatePicker Date="{Binding DateComponentP}"/>
+        <Label Text="Codigo del paciente"/>
+        <Entry Placeholder="Codigo" Text="{Binding IdComponentP}" />
+        <Label Text="¿Se encuentra en Stock?"/>
+        <CheckBox IsChecked="{Binding ActiveP}"/>
+
+        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+            <Button Command="{Binding InsertRowCommand}" Text="Agregar a la lista" BackgroundColor="pink" FontAttributes="Bold" TextColor="White"/>
+            <Button Command="{Binding DeleteAllRowCommand}" Text="Limpiar lista" BackgroundColor="pink" FontAttributes="Bold" TextColor="White"/>
+        </StackLayout>
+
+        <ListView ItemsSource="{Binding ListComponents}" HasUnevenRows="True" BackgroundColor="WhiteSmoke">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                            <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                <StackLayout Orientation="Horizontal" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                    <Label Text="Componente: " FontAttributes="Bold"/>
+                                    <Label Text="{Binding NameComponentModel}" />
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                    <Label Text="Fecha de Entrada: " FontAttributes="Bold"/>
+                                    <Label Text="{Binding DateComponentModel}" TextColor="Black" />
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                    <Label Text="Codigo: " FontAttributes="Bold" />
+                                    <Label Text="{Binding IdComponentModel}" TextColor="Black" />
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                    <Label Text="¿Se encuentra en sttock ?: " FontAttributes="Bold"/>
+                                    <CheckBox IsChecked="{Binding ActiveModel}" IsEnabled="False"/>
+                                </StackLayout>
+                            </StackLayout>
+
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="UpdateRow_Tapped" CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                <SwipeGestureRecognizer Direction="Right" Swiped="DeleteRow_Swiped" CommandParameter="{Binding .}"></SwipeGestureRecognizer>
+                            </Frame.GestureRecognizers>
+
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>
